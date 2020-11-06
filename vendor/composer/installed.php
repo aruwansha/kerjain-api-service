@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'v7.0.0',
-    'version' => '7.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'df2541f6a215bb06f33780faf7c3cd636aca5697',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -417,12 +417,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'v7.0.0',
-      'version' => '7.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'df2541f6a215bb06f33780faf7c3cd636aca5697',
     ),
     'laravel/tinker' => 
     array (
@@ -450,6 +450,15 @@
       array (
       ),
       'reference' => '9be3b16c877d477357c015cec057548cf9b2a14a',
+    ),
+    'league/fractal' => 
+    array (
+      'pretty_version' => '0.19.2',
+      'version' => '0.19.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06dc15f6ba38f2dde2f919d3095d13b571190a7c',
     ),
     'league/mime-type-detection' => 
     array (
@@ -705,8 +714,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
@@ -868,6 +877,24 @@
       array (
       ),
       'reference' => '99732be0ddb3361e16ad77b68ba41efc8e979019',
+    ),
+    'spatie/fractalistic' => 
+    array (
+      'pretty_version' => '2.9.0',
+      'version' => '2.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9d7594c4e9ed2657eb017db93ab6dbb58f56e049',
+    ),
+    'spatie/laravel-fractal' => 
+    array (
+      'pretty_version' => '5.8.0',
+      'version' => '5.8.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '335a8d0e9e966244a552c6970ac690b18c402d90',
     ),
     'swiftmailer/swiftmailer' => 
     array (

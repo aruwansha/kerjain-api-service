@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -40,5 +41,11 @@ class User extends Authenticatable
     public function ownProfile(Seller $seller)
     {
         return auth()->id() === $seller->user_id;
+    }
+
+    public function ownProduct(Product $product)
+    {
+        $seller_id = $product->seller_id;
+        return auth()->id() === DB::table('sellers')->where('id', $seller_id)->value('user_id');
     }
 }

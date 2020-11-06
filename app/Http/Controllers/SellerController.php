@@ -28,6 +28,13 @@ class SellerController extends Controller
         $seller->save();
     }
 
+    public function getProductList()
+    {
+        $seller_id = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
+        $total_product = DB::table('products')->where('seller_id', $seller_id)->get();
+        return response()->json($total_product, 200);
+    }
+
     public function addProduct(Request $request, Product $product)
     {
         $this->validate($request, [
@@ -38,17 +45,21 @@ class SellerController extends Controller
         ]);
 
         $seller_id = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
+        $total_product = DB::table('products')->where('seller_id', $seller_id)->count();
+        if ($total_product >= 3) {
+            return response()->json(['message' =>'The number of products has reached the limit'], 201);
+        } else{
+            $storeToDatabase = $product->create([
+                'seller_id' => $seller_id,
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'picture' => $request->picture,
+            ]);
 
-        $storeToDatabase = $product->create([
-            'seller_id' => $seller_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'picture' => $request->picture,
-        ]);
-
-        if($storeToDatabase != null){
-            return response()->json(['berhasil'], 201);
+            if($storeToDatabase != null){
+                return response()->json(['berhasil'], 201);
+            }
         }
     }
 
@@ -60,12 +71,13 @@ class SellerController extends Controller
         $product->price = $request->get('price', $product->price);
         $product->picture = $request->get('picture', $product->picture);
         $product->save();
+        return response()->json(['message' => 'product has been updated'], 200);
     }
 
-    public function deleteProduct(Request $request, Product $product)
+    public function deleteProduct(Product $product)
     {
         $this->authorize('delete', $product);
-
+        return response()->json(['message' => 'product has been deleted'], 410);
     }
 
     public function getOrderList(Request $request, Order $order)

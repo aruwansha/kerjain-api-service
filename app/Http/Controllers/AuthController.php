@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Transformers\UserTransformer;
+
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +26,12 @@ class AuthController extends Controller
             'user_level' => $request->user_level,
             'api_token' => bcrypt($request->email.$request->password)
         ]);
+
+        $response = fractal()
+                        ->item($storeToDatabase)
+                        ->transformWith(new UserTransformer)
+                        ->toArray();
+        return response()->json($response, 201);
     }
 
     public function login(Request $request, User $user)
@@ -33,5 +41,12 @@ class AuthController extends Controller
         }
 
         $findUser = $user->findOrFail(Auth::user()->id);
+
+        $response = fractal()
+                        ->item($findUser)
+                        ->transformWith(new UserTransformer)
+                        ->addMeta(['token' => $findUser->api_token])
+                        ->toArray();
+        return response()->json($response, 200);
     }
 }
