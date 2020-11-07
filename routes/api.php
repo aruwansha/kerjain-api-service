@@ -13,4 +13,4 @@ Route::put('seller/product/update/{product}', 'SellerController@updateProduct')-
 Route::delete('seller/product/delete/{product}', 'SellerController@deleteProduct')->middleware('auth:api');
 
 //Buyer
-Route::put('buyer/update/{buyer}', 'BuyerController@update')->middleware('auth:api');
+Route::put('buyer/update/{buyer}', 'BuyerController@updateProfile')->middleware('auth:api');

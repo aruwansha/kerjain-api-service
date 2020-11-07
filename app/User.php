@@ -38,9 +38,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function ownProfile(Seller $seller)
+    public function ownSeller(Seller $seller)
     {
         return auth()->id() === $seller->user_id;
+    }
+
+    public function ownBuyer(Buyer $buyer)
+    {
+        return auth()->id() === $buyer->user_id;
     }
 
     public function ownProduct(Product $product)

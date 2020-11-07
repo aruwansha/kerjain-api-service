@@ -24,8 +24,9 @@ class SellerController extends Controller
         $seller->shop_description = $request->get('shop_description', $seller->shop_description);
         $seller->bank_name = $request->get('bank_name', $seller->bank_name);
         $seller->bank_invoice = $request->get('bank_invoice', $seller->bank_invoice);
-
-        $seller->save();
+        if ($seller->save()) {
+            return response()->json(['message' => 'profile has been updated'], 200);
+        }
     }
 
     public function getProductList()
@@ -47,7 +48,7 @@ class SellerController extends Controller
         $seller_id = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
         $total_product = DB::table('products')->where('seller_id', $seller_id)->count();
         if ($total_product >= 3) {
-            return response()->json(['message' =>'The number of products has reached the limit'], 201);
+            return response()->json(['message' =>'number of products has reached the limit'], 201);
         } else{
             $storeToDatabase = $product->create([
                 'seller_id' => $seller_id,
@@ -58,7 +59,7 @@ class SellerController extends Controller
             ]);
 
             if($storeToDatabase != null){
-                return response()->json(['berhasil'], 201);
+                return response()->json(['message' => 'product has been added'], 201);
             }
         }
     }
