@@ -6,12 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Transformers\SellerTransformer;
+
 use App\Seller;
 use App\Product;
 use App\Order;
 
 class SellerController extends Controller
 {
+    public function getProfile()
+    {
+        $seller_list = Seller::select()->where('user_id', Auth::user()->id)->get();
+        $response = fractal()
+                        ->collection($seller_list)
+                        ->transformWith(new SellerTransformer)
+                        ->toArray();
+        return response()->json($response, 200);
+    }
+
     public function updateProfile(Request $request, Seller $seller)
     {
         $this->authorize('update', $seller);
