@@ -18,8 +18,12 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('seller_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('buyer_id')->unsigned();
-            $table->enum('status', ['Canceled', 'Declined', 'Accepted'])->nullable();
+            $table->enum('status', ['Waiting','Canceled', 'Declined', 'Accepted'])->nullable();
             $table->timestamps();
+
+            $table->foreign('seller_id')->references('id')->on('sellers');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('buyer_id')->references('id')->on('buyers');
         });
     }
 

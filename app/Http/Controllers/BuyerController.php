@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Buyer;
 use App\Seller;
+use App\Order;
 
 class BuyerController extends Controller
 {
@@ -42,5 +43,22 @@ class BuyerController extends Controller
                         'description AS product_description', 'price', 'picture')
                         ->get();
         return response()->json($seller, 200);
+    }
+
+    public function orderProduct($id, Order $order)
+    {
+        $seller_id = DB::table('products')->where('id', $id)->value('seller_id');
+        $buyer_id = DB::table('buyers')->where('user_id', Auth::user()->id)->value('id');
+        $storeToDatabase = $order->create([
+            'seller_id' => $seller_id,
+            'product_id' => $id,
+            'buyer_id' => $buyer_id,
+            'status' => 'Waiting',
+        ]);
+
+        if($storeToDatabase != null){
+            return response()->json(['message' => 'product has been added'], 201);
+        }
+        
     }
 }

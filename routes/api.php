@@ -17,3 +17,4 @@ Route::delete('seller/product/delete/{product}', 'SellerController@deleteProduct
 Route::put('buyer/update/{buyer}', 'BuyerController@updateProfile')->middleware('auth:api');
 Route::get('buyer/seller/best', 'BuyerController@getBestSeller');
 Route::get('buyer/seller/{id}', 'BuyerController@getDetailSeller');
+Route::post('buyer/order/{id}', 'BuyerController@orderProduct')->middleware('auth:api');
