@@ -16,9 +16,9 @@ class CreateTriggerPoints extends Migration
         DB::unprepared("
         CREATE TRIGGER tr_user_id AFTER INSERT ON users FOR EACH ROW
             BEGIN
-                IF(NEW.user_level = 'seller') THEN INSERT INTO sellers (user_id, name, email) VALUES (NEW.id, NEW.name, NEW.email);
-                ELSEIF (NEW.user_level = 'buyer') THEN INSERT INTO buyers (user_id, name, email) VALUES (NEW.id, NEW.name, NEW.email);
-                ELSEIF (NEW.user_level = 'admin') THEN INSERT INTO admins (user_id, name, email) VALUES (NEW.id, NEW.name, NEW.email);
+                IF(NEW.user_level = 'seller') THEN INSERT INTO sellers (user_id) VALUES (NEW.id);
+                ELSEIF (NEW.user_level = 'buyer') THEN INSERT INTO buyers (user_id) VALUES (NEW.id);
+                ELSEIF (NEW.user_level = 'admin') THEN INSERT INTO admins (user_id) VALUES (NEW.id);
                 END IF;
             END;
         ");

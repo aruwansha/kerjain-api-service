@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Transformers\SellerTransformer;
 
+use App\User;
 use App\Seller;
 use App\Product;
 use App\Order;
@@ -16,19 +17,25 @@ class SellerController extends Controller
 {
     public function getProfile()
     {
-        $seller_list = Seller::select()->where('user_id', Auth::user()->id)->get();
-        $response = fractal()
-                        ->collection($seller_list)
-                        ->transformWith(new SellerTransformer)
-                        ->toArray();
-        return response()->json($response, 200);
+        $seller = DB::table('sellers AS s')
+                        ->join('users AS u', 's.user_id', '=', 'u.id')
+                        ->select('s.id AS id', 'u.name AS seller_name', 
+                        'address AS seller_address', 'category', 'service_name', 
+                        'shop_description')
+                        ->get();
+        return response()->json($seller, 200);
     }
 
     public function updateProfile(Request $request, Seller $seller)
     {
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->get('name', $user->name);
+        $user->email = $request->get('email', $user->email);
+        $user->password = $request->get('password', $user->password);
+        $user->api_token = $request->get('api_token', $user->api_token);
+        $user->save();
+
         $this->authorize('update', $seller);
-        $seller->name = $request->get('name', $seller->name);
-        $seller->email = $request->get('email', $seller->email);
         $seller->birthdate = $request->get('birthdate', $seller->birthdate);
         $seller->address = $request->get('address', $seller->address);
         $seller->category = $request->get('category', $seller->category);

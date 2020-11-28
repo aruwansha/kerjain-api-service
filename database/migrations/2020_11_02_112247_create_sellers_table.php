@@ -16,8 +16,6 @@ class CreateSellersTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->string('name');
-            $table->string('email')->unique();
             $table->date('birthdate')->nullable();
             $table->string('address')->nullable();
             $table->enum('category', ['Grafis & Desain', 'Teknologi & Pemrograman', 'Musik & Audio', 'Tulisan & Terjemahan', 'Video & Animasi'])->nullable();
